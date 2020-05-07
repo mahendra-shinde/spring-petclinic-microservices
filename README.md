@@ -159,3 +159,9 @@ For pull requests, editor preferences are available in the [editor config](.edit
 
 [Configuration repository]: https://github.com/spring-petclinic/spring-petclinic-microservices-config
 [Spring Boot Actuator Production Ready Metrics]: https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html
+
+# JVM Optimized Docker Containers
+
+To tell the JVM to be aware of Docker memory limits in the absence of setting a maximum Java heap via -Xmx, there are two JVM command line options required, `-XX:+UnlockExperimentalVMOptions` and `-XX:+UseCGroupMemoryLimitForHeap`. The `-XX:+UnlockExperimentalVMOptions` is required because in a future release transparent identification of Docker memory limits is the goal. When these two JVM command line options are used, and `-Xmx` is not specified, the JVM will look at the Linux cgroup configuration, which is what Docker containers use for setting memory limits, to transparently size a maximum Java heap size. FYI, Docker containers also use cgroups configuration for CPU limits too.
+
+[Click for Reference](https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits)
